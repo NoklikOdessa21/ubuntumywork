@@ -1,40 +1,25 @@
 
-char* format(char* str)
-{
-	size_t lenght = strlen(str);
-	char* temp = (char*)malloc(lenght);
-	int count = 0;
-	for (int i = 0; i < lenght; i++)
-	{	
-		if (str[i] >= 48 && str[i] <= 57 || str[i] >= 65 && str[i] <= 90 || str[i] >= 97 && str[i] <= 122)
-		{
-			temp[count] = str[i];
-			count++;
-		}				
-	}
-	temp[count] = '\0';
-
-	count = 0;
-	lenght = strlen(temp);
-	char* result = (char*)malloc(lenght);
-	int step;
-	for (int i = 0; i < lenght; )
-	{
-		if ((lenght - i) > 4)
-			step = 3;
-		else
-			step = 2;
-		for (int t = 0; t < step; t++)
-		{
-			result[count] = temp[i];
-			count++;
-			i++;
-		}
-		result[count] =' ';
-		count++;
-	}
-	result[count] = '\0';	
-	return result;
+char* format(const char* s) {
+    int len = strlen(s);
+    len += len / 3 + 1;
+    char* result = (char*)malloc(len);
+    char* it = result;
+    do {
+        if (*s >= '0' && *s <= '9'
+            || *s >= 'a' && *s <= 'z'
+            || *s >= 'A' && *s <= 'Z') {
+            *it++ = *s++;
+            if ((it - result) % 4 == 3)
+                *it++ = ' ';
+        }
+        else s++;
+    } while (*s);
+    *it = 0;
+    if ((it - result) % 4 == 1) {
+        *(it - 2) = *(it - 3);
+        *(it - 3) = ' ';
+    }
+    return result;
 }
 
 int main()
